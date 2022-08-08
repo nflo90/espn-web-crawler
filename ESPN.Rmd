@@ -102,6 +102,8 @@ games_list <- tibble(
 
 ```{r df for data}
 #create dataframe of game data
+#this may seem excessive but the table on that page does not scarpe like a normal table. to ensure each variable extracts for a team/game row format, 
+#you need to set each variable and corresponding node individually
 game.data <- tibble(summary_url = games_list$summary_url, 
             
                    home = map(games_list$html_results,
