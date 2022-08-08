@@ -81,7 +81,7 @@ game.links <- game.ids %>%
 game.links$name <- sub("c_*", "", game.links$name)
 
 #single out ids + build new links to game data table, unique removes duplicates that were scraped twice due to away + home teams
-game.links$id = substr(game.links$value,40,49)
+game.links$id = substr(game.links$value,40,49) #40 through 49 are characters to extract for game id
 game.links <- game.links %>% 
   transmute(url = glue::glue("https://www.espn.com/nfl/matchup?gameId={id}")) %>% unique()
 
@@ -275,17 +275,4 @@ game.data <- tibble(summary_url = games_list$summary_url,
                                   html_text()
                                 ) 
 )
-```
-
-```{r write csv / clean data}
-#columns to fix 
-game.data.2 = game.data %>% 
-  select(-home_pass_att,-away_pass_att,-home_sack,-away_sack,-home_red_zone:-away_pen,-summary_url)
-
-#ensure numbers register as numeric columns 
-game.data.2 = game.data.2 %>% mutate_at(c('home_score':'away_def_td', as.numeric))
-game.data.2 = edit(game.data.2)
-
-#write data
-write.csv(game.data.2, "nfl-2021-season.csv")  
 ```
