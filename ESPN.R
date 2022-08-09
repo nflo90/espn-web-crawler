@@ -3,6 +3,13 @@ library(purrr)
 library(rvest)
 library(janitor)
 
+#this is a web crawler designed to reverse engineer links to nested data on websites
+#it works to scrape similar data from multiple pages, like tables or text 
+#with espn, we are working through constructing urls like this 
+#https://www.espn.com/nfl/matchup?gameId=401326626
+#we want to scrape game stats for every game, for every team for the season
+#to get that, we need to crawl through the list of teams, the schedules,
+#and finally the nested page where the data is 
 
 #read base url}
 base.url <- read_html("https://www.espn.com/nfl/teams")
@@ -22,13 +29,13 @@ url = url[1:32]
 
 #bind teams and url
 team.links <- tibble(teams, url) %>% 
-  #select season to scrape schedule 
+  #select season to scrape schedule
   transmute(url = glue::glue("{url}/season/2021"))
 
 ################################################################################
 #scrape schedules 
 results_list <- tibble(
-  html_results = map(team.links$url[1:32],
+  html_results = map(team.links$url[1:32],#change to length of list 
                      ~ {
                        Sys.sleep(2)
                        # DO THIS!  sleep 2 will pause 2 seconds between server requests
@@ -39,7 +46,7 @@ results_list <- tibble(
                      }),
   summary_url = team.links$url[1:32]
 )
-
+################################################################################
 #get game IDs from schedules
 game.ids <- tibble(summary_url = results_list$summary_url, 
                    team = 
@@ -58,28 +65,28 @@ game.ids <- tibble(summary_url = results_list$summary_url,
 game.links <- game.ids %>% 
   select(team, game) %>% 
   pivot_wider(., names_from = team, values_from = game) %>% 
-  drop_na() %>% 
+  drop_na() %>% #just in case you accidentally scrape something partially/unwanted
   clean_names() %>% 
-  pivot_longer(cols = c("c_buffalo_bills":"c_seattle_seahawks")) %>% 
+  pivot_longer(cols = everything()) %>% 
   unnest(cols = everything())
 game.links$name <- sub("c_*", "", game.links$name)
 
 #single out ids + build new links to game data table, 
-#unique removes duplicates that were scraped twice due to away + home teams
 game.links$id = substr(game.links$value,40,49)
 game.links <- game.links %>% 
   transmute(url = glue::glue("https://www.espn.com/nfl/matchup?gameId={id}")) %>%
-  unique()
+  unique()#remove duplicates that were scraped twice due to away + home teams
 
 #get game stats
 games_list <- tibble(
-  html_results = map(game.links$url[1],
+  html_results = map(game.links$url[1:3], ##change '3' to length of list 
+                     #run test to make sure it scrapes what you want
                      ~ {
                        Sys.sleep(2)
                        .x %>%
                          read_html()
                      }),
-  summary_url = game.links$url[1]
+  summary_url = game.links$url[1]#change x to length of list 
 )
 ################################################################################
 #create dataframe of game data
