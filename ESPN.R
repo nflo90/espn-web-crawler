@@ -11,7 +11,7 @@ library(janitor)
 #to get that, we need to crawl through the list of teams, the schedules,
 #and finally the nested page where the data is 
 
-#read base url}
+#read base url
 base_url <- read_html("https://www.espn.com/nfl/teams")
 
 #grab team names from base url
@@ -41,6 +41,10 @@ results_list <- tibble(
                        # DO THIS!  sleep 2 will pause 2 seconds between server requests
                        #to avoid being identified and potentially blocked /
                        #assume crawling bot is a DNS attack.
+                       #also, would recommend checking the /robots.txt to any website you intend to 
+                       #scrape data from prior to crawling/scraping
+                       #it is important to practice good internet etiquette when webscraping
+                       #as you are essentially deploying a bot to the website
                        .x %>%
                          read_html()
                      }),
