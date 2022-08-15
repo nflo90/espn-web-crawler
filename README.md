@@ -9,4 +9,4 @@ Additional familiarity of the purrr package is preferable, as this utilizes purr
 
 This approach works to scrape similar data from multiple pages, like tables or text. Using ESPN as the example, we are working through constructing urls like this 
 https://www.espn.com/nfl/matchup?gameId=401326626. This file walks through how to scrape game stats for every game for a season. To do that, we need to crawl through
-the list of teams, the schedules, and finally the nested page where the data is. 
+the list of teams, the schedules, and finally the pages where the actual data tables are.
