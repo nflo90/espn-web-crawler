@@ -21,7 +21,7 @@ teams <- base_url %>%
 teams <- teams[1:32]
 
 #grab urls to each team schedule
-url <- base.url %>% 
+url <- base_url %>% 
   html_nodes(".nowrap:nth-child(2) .AnchorLink") %>% 
   html_attr("href") %>% 
   paste("https://www.espn.com", ., sep = "") 
@@ -48,7 +48,7 @@ results_list <- tibble(
                        .x %>%
                          read_html()
                      }),
-  summary_url = team.links$url[1:32]
+  summary_url = team_links$url[1:32]
 )
 ################################################################################
 #get game IDs from schedules
