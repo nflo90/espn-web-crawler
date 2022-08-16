@@ -76,8 +76,8 @@ game_links <- game_ids %>%
 game_links$name <- sub("c_*", "", game_links$name)
 
 #single out ids + build new links to game data table, 
-game_links$id = substr(game_links$value,40,49)
-game_links <- game.links %>% 
+game_links$id <- substr(game_links$value,40,49)
+game_links <- game_links %>% 
   transmute(url = glue::glue("https://www.espn.com/nfl/matchup?gameId={id}")) %>%
   unique()#remove duplicates that were scraped twice due to away + home teams
 
