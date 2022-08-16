@@ -35,7 +35,7 @@ team_links <- tibble(teams, url) %>%
 ################################################################################
 #scrape schedules 
 results_list <- tibble(
-  html_results = map(team.links$url[1:32],#change to length of list 
+  html_results = map(team_links$url[1:32],#change to length of list 
                      ~ {
                        Sys.sleep(2)
                        # DO THIS!  sleep 2 will pause 2 seconds between server requests
