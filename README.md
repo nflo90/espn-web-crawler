@@ -6,6 +6,5 @@ This is a web crawler designed to reverse engineer links to nested data and scra
 To use this, I am assuming base knowledge of selector gadget and R. This web crawler utilizes tidyverse in addition to the rvest package to handle scraping. 
 Additional familiarity with the purrr package is preferable, as this utilizes purrr for mapping data to a dataframe from the scraped webpages. 
 
-This approach works to scrape similar data from multiple pages, like tables or text. Using ESPN as the example, we are working through constructing urls like this 
-https://www.espn.com/nfl/matchup?gameId=401326626. This file walks through how to scrape game stats for every game for a season. To do that, we need to crawl through
+Using ESPN as the example, we are working through constructing urls like this "https://www.espn.com/nfl/matchup?gameId=401326626." This file walks through how to scrape game stats for every game for a season. To do that, we need to crawl through
 the list of teams, the schedules, and finally the pages where the actual data tables are.
