@@ -38,13 +38,13 @@ results_list <- tibble(
   html_results = map(team_links$url[1:32],#change to length of list 
                      ~ {
                        Sys.sleep(2)
-                       # DO THIS!  sleep 2 will pause 2 seconds between server requests
+                       # Important note: sleep 2 will pause 2 seconds between server requests
                        #to avoid being identified and potentially blocked /
                        #assume crawling bot is a DNS attack.
                        #also, would recommend checking the /robots.txt to any website you intend to 
                        #scrape data from prior to crawling/scraping
                        #it is important to practice good internet etiquette when webscraping
-                       #as you are essentially deploying a bot to the website
+                       #because you are essentially deploying a bot to the website
                        .x %>%
                          read_html()
                      }),
@@ -69,8 +69,8 @@ game_ids <- tibble(summary_url = results_list$summary_url,
 game_links <- game_ids %>% 
   select(team, game) %>% 
   pivot_wider(., names_from = team, values_from = game) %>% 
-  drop_na() %>% #just in case you accidentally scrape something partially/unwanted
-  clean_names() %>% 
+  drop_na() %>% 
+  janitor::clean_names() %>% 
   pivot_longer(cols = everything()) %>% 
   unnest(cols = everything())
 game_links$name <- sub("c_*", "", game_links$name)
@@ -90,7 +90,7 @@ games_list <- tibble(
                        .x %>%
                          read_html()
                      }),
-  summary_url = game_links$url[1]#change x to length of list 
+  summary_url = game_links$url[1:3]#change x to length of list 
 )
 ################################################################################
 #create dataframe of game data
