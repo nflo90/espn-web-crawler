@@ -1,7 +1,7 @@
 library(tidyverse)
 library(purrr)
 library(rvest)
-library(janitor)
+
 
 #this is a web crawler designed to reverse engineer links to nested data on websites
 #it works to scrape similar data from multiple pages, like tables or text 
