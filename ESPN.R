@@ -2,15 +2,7 @@ library(tidyverse)
 library(purrr)
 library(rvest)
 
-
-#this is a web crawler designed to reverse engineer links to nested data on websites
-#it works to scrape similar data from multiple pages, like tables or text 
-#with espn, we are working through constructing urls like this 
-#https://www.espn.com/nfl/matchup?gameId=401326626
-#we want to scrape game stats for every game, for every team for the season
-#to get that, we need to crawl through the list of teams, the schedules,
-#and finally the nested page where the data is 
-
+################################################################################
 #read base url
 base_url <- read_html("https://www.espn.com/nfl/teams")
 
