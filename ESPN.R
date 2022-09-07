@@ -94,8 +94,8 @@ games_list <- tibble(
 )
 ################################################################################
 #create dataframe of game data
-#this may seem like a lot of code, but to ensure the table scrapes to read as a
-#team,game level data in rows, you need to scrape each element individually
+#this may seem like a lot of code, but to ensure the data is extracted from
+#the lists to read as game level data in rows, you need to scrape each element individually
 game_data <- tibble(summary_url = games_list$summary_url, 
                     home = map(
                       games_list$html_results,
